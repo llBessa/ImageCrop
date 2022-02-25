@@ -119,7 +119,7 @@ img {
 }
 
 #selection-tool {
-    position: fixed;
+    position: absolute;
     display: none;
     border: 2px dashed green;
 }
