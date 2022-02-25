@@ -123,3 +123,7 @@ img {
     display: none;
     border: 2px dashed green;
 }
+
+#crop-image, #download {
+    display: none;
+}
