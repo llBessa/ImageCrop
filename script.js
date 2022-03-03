@@ -3,7 +3,6 @@ let photoPreview = document.getElementById('photo-preview')
 
 let image;
 let photoName;  // nome do arquivo aberto
-let photoExt;   // extensão do arquivo
 // Select & preview image
 
 document.getElementById('select-image')
@@ -16,7 +15,6 @@ window.addEventListener('DOMContentLoaded', () => {
         let file = photoFile.files.item(0)
 
         photoName = file.name.split('.')[0]
-        photoExt = file.name.split('.')[1]
 
         //ler um arquivo
         let reader = new FileReader()
@@ -37,10 +35,13 @@ let endX, endY, relativeEndX, relativeEndY  //posições finais
 
 let isSelecting = false
 const events = {
-    mouseover(){
+    mouseenter(){
         this.style.cursor = 'crosshair'
     },
     mousedown(){
+        console.log(event)
+        selection.style.display = 'none'
+        isSelecting = true
         const {clientX, clientY, offsetX, offsetY} = event
         
         startX = clientX
@@ -48,7 +49,6 @@ const events = {
         relativeStartX = offsetX
         relativeStartY = offsetY
 
-        isSelecting = true
     },
     mousemove(){
         endX = event.clientX
@@ -62,9 +62,9 @@ const events = {
             selection.style.width = (endX - startX) + 'px'
             selection.style.height = (endY - startY) + 'px'
         }
-
     },
     mouseup(){
+        console.log(event)
         isSelecting = false
 
         relativeEndX = event.layerX
@@ -72,12 +72,22 @@ const events = {
 
         // mostrar o botão de corte
         cropButton.style.display = 'initial'
-    }
+    },
+    // mouseout(){
+    //     console.log('mouseOut')
+    //     isSelecting = false;
+
+    //     // mostrar o botão de corte
+    //     cropButton.style.display = 'initial'
+    // }
 }
+
+// Editor de foto
+const photoEditor = document.getElementById('photo-editor')
 
 Object.keys(events)
 .forEach(eventName => {
-    photoPreview.addEventListener(eventName, events[eventName])
+    photoEditor.addEventListener(eventName, events[eventName])
 });
 
 // Canvas
@@ -158,7 +168,7 @@ const downloadButton = document.getElementById('download')
 // funcionalidade de download
 downloadButton.onclick = () => {
     const a = document.createElement('a')
-    a.download = photoName + '-cropped.' + photoExt
+    a.download = photoName + '-cropped.png'
     a.href = canvas.toDataURL()
     a.click()
 }
