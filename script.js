@@ -67,27 +67,25 @@ const events = {
         console.log(event)
         isSelecting = false
 
-        relativeEndX = event.layerX
-        relativeEndY = event.layerY
+        // relativeEndX = event.layerX
+        // relativeEndY = event.layerY
 
         // mostrar o botão de corte
         cropButton.style.display = 'initial'
     },
-    // mouseout(){
-    //     console.log('mouseOut')
-    //     isSelecting = false;
+    mouseout(){
+        console.log('mouseOut')
+        isSelecting = false;
 
-    //     // mostrar o botão de corte
-    //     cropButton.style.display = 'initial'
-    // }
+        // mostrar o botão de corte
+        cropButton.style.display = 'initial'
+    }
 }
 
-// Editor de foto
-const photoEditor = document.getElementById('photo-editor')
 
 Object.keys(events)
 .forEach(eventName => {
-    photoEditor.addEventListener(eventName, events[eventName])
+    photoPreview.addEventListener(eventName, events[eventName])
 });
 
 // Canvas

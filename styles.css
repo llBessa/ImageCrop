@@ -113,9 +113,10 @@ img {
 }
 
 #selection-tool {
-    position: absolute;
+    position: fixed;
     display: none;
     border: 2px dashed green;
+    pointer-events: none;
 }
 
 #crop-image, #download {
