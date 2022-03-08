@@ -41,14 +41,14 @@ const events = {
     mousedown(){
         console.log(event)
         selection.style.display = 'none'
-        isSelecting = true
         const {clientX, clientY, offsetX, offsetY} = event
         
         startX = clientX
         startY = clientY
         relativeStartX = offsetX
         relativeStartY = offsetY
-
+        
+        isSelecting = true
     },
     mousemove(){
         endX = event.clientX
@@ -58,15 +58,32 @@ const events = {
             selection.style.display = 'initial'
             selection.style.top = startY + 'px'
             selection.style.left = startX + 'px'
+
+            if(startX > endX || startY > endY){
+                selection.style.top = endY + 'px'
+                selection.style.left = endX + 'px'
+            }
     
-            selection.style.width = (endX - startX) + 'px'
-            selection.style.height = (endY - startY) + 'px'
+            selection.style.width = Math.abs(endX - startX) + 'px'
+            selection.style.height = Math.abs(endY - startY) + 'px'
         }
     },
     mouseup(){
         console.log(event)
         isSelecting = false
 
+        console.log()
+
+        if(startX > endX || startY > endY){
+            let auxX, auxY
+                auxX = startX
+                auxY = startY
+    
+                startX = endX
+                startY = endY
+                endX = auxX
+                endY = auxY
+        }
         // relativeEndX = event.layerX
         // relativeEndY = event.layerY
 
