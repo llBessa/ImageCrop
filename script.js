@@ -27,13 +27,24 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 })
 
-// slection tool
+// selection tool
 let selection = document.getElementById('selection-tool')
 
 let startX, startY, relativeStartX, relativeStartY  //posoções iniciais
 let endX, endY, relativeEndX, relativeEndY  //posições finais
 
-let isSelecting = false
+// Mostra os logs da seleção realizada
+function logsSelection(){
+    console.log(event)
+
+    console.log(`width : ${selection.style.width}\nheight : ${selection.style.height}`)
+    console.log(`startX : ${startX} endX : ${endX}\nstartY : ${startY} endY : ${endY}`)
+    console.log(`top : ${selection.style.top} left : ${selection.style.left}`)
+}
+
+let isSelecting = false // flag de estado de seleção
+let hasSelected = false // flag de existencia de seleção
+
 const events = {
     mouseenter(){
         this.style.cursor = 'crosshair'
@@ -53,49 +64,51 @@ const events = {
     mousemove(){
         endX = event.clientX
         endY = event.clientY
+        relativeEndX = event.offsetX
+        relativeEndY = event.offsetY
 
         if(isSelecting){
             selection.style.display = 'initial'
-            selection.style.top = startY + 'px'
-            selection.style.left = startX + 'px'
 
-            if(startX > endX || startY > endY){
+            if(startX < endX && startY < endY){
+                selection.style.top = startY + 'px'
+                selection.style.left = startX + 'px'
+            }
+            else{
                 selection.style.top = endY + 'px'
                 selection.style.left = endX + 'px'
             }
     
             selection.style.width = Math.abs(endX - startX) + 'px'
             selection.style.height = Math.abs(endY - startY) + 'px'
+            hasSelected = true
         }
     },
     mouseup(){
-        console.log(event)
         isSelecting = false
 
-        console.log()
-
-        if(startX > endX || startY > endY){
-            let auxX, auxY
-                auxX = startX
-                auxY = startY
-    
-                startX = endX
-                startY = endY
-                endX = auxX
-                endY = auxY
+        if(relativeStartX > relativeEndX || relativeStartY > relativeEndY){
+            relativeStartX = relativeEndX
+            relativeStartY = relativeEndY
         }
-        // relativeEndX = event.layerX
-        // relativeEndY = event.layerY
+
+        logsSelection()
 
         // mostrar o botão de corte
         cropButton.style.display = 'initial'
     },
     mouseout(){
-        console.log('mouseOut')
         isSelecting = false;
 
+        if(relativeStartX > relativeEndX || relativeStartY > relativeEndY){
+            relativeStartX = relativeEndX
+            relativeStartY = relativeEndY
+        }
+
+        logsSelection()
+
         // mostrar o botão de corte
-        cropButton.style.display = 'initial'
+        if(hasSelected) cropButton.style.display = 'initial'
     }
 }
 
