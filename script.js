@@ -71,12 +71,12 @@ const events = {
             selection.style.display = 'initial'
 
             if(startX < endX && startY < endY){
-                selection.style.top = startY + 'px'
-                selection.style.left = startX + 'px'
+                selection.style.top = relativeStartY + photoPreview.offsetTop + 'px'
+                selection.style.left = relativeStartX + photoPreview.offsetLeft + 'px'
             }
             else{
-                selection.style.top = endY + 'px'
-                selection.style.left = endX + 'px'
+                selection.style.top = relativeEndY + photoPreview.offsetTop + 'px'
+                selection.style.left = relativeEndX + photoPreview.offsetLeft + 'px'
             }
     
             selection.style.width = Math.abs(endX - startX) + 'px'

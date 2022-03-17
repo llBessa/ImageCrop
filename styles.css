@@ -53,6 +53,7 @@ header p {
 }
 
 main {
+    position: relative;
     margin: 0 auto;
     width: min(80vw, 500px);
 
@@ -113,7 +114,7 @@ img {
 }
 
 #selection-tool {
-    position: fixed;
+    position: absolute;
     display: none;
     border: 2px dashed green;
     pointer-events: none;
